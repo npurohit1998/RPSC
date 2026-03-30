@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FF6B35">
+<meta name="description" content="RPSC 1st Grade Teacher Exam Preparation App">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="RPSC तैयारी">
+<title>RPSC तैयारी - प्रथम श्रेणी शिक्षक</title>
+<style>
+  :root {
+    --primary: #FF6B35;
+    --primary-dark: #e05a28;
+    --secondary: #2D6A4F;
+    --accent: #FFD700;
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #666;
+    --border: #e0e0e0;
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --info: #3498db;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 14px;
+    --font: 'Segoe UI', 'Noto Sans Devanagari', system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f1a;
+      --card: #1a1a2e;
+      --text: #f0f0f0;
+      --text-muted: #aaa;
+      --border: #2a2a3e;
+      --shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height:100vh; overflow-x:hidden; }
+  
+  /* NAV */
+  .nav { position:fixed; bottom:0; left:0; right:0; background:var(--card); border-top:1px solid var(--border); display:flex; z-index:100; box-shadow:0 -2px 10px rgba(0,0,0,0.1); }
+  .nav-btn { flex:1; padding:10px 4px 8px; display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; cursor:pointer; color:var(--text-muted); transition:all 0.2s; font-size:10px; font-family:var(--font); }
+  .nav-btn.active { color:var(--primary); }
+  .nav-btn svg { width:22px; height:22px; }
+  
+  /* HEADER */
+  .header { background: linear-gradient(135deg, var(--primary), #c0392b); color:#fff; padding:16px 18px 12px; position:sticky; top:0; z-index:50; }
+  .header-top { display:flex; align-items:center; justify-content:space-between; }
+  .header h1 { font-size:17px; font-weight:700; }
+  .header-sub { font-size:11px; opacity:0.85; margin-top:2px; }
+  
+  /* PAGES */
+  .page { display:none; padding-bottom:80px; min-height:100vh; }
+  .page.active { display:block; }
+  
+  /* COUNTDOWN */
+  .countdown-card { margin:16px; background: linear-gradient(135deg, #1a1a2e, #16213e); color:#fff; border-radius:var(--radius); padding:20px; text-align:center; }
+  .exam-label { font-size:13px; opacity:0.7; margin-bottom:8px; }
+  .exam-date { font-size:15px; font-weight:600; color:var(--accent); margin-bottom:16px; }
+  .countdown-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .count-unit { background:rgba(255,255,255,0.1); border-radius:10px; padding:12px 6px; }
+  .count-num { font-size:28px; font-weight:800; color:var(--accent); line-height:1; }
+  .count-label { font-size:10px; opacity:0.7; margin-top:4px; }
+  
+  /* CARDS */
+  .card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); margin:12px 16px; padding:16px; }
+  .card-title { font-size:15px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  
+  /* STATS ROW */
+  .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:12px 16px; }
+  .stat-card { background:var(--card); border-radius:12px; padding:14px 10px; text-align:center; box-shadow:var(--shadow); }
+  .stat-num { font-size:22px; font-weight:800; color:var(--primary); }
+  .stat-label { font-size:10px; color:var(--text-muted); margin-top:2px; }
+  
+  /* SUBJECT LIST */
+  .subject-item { padding:12px 0; border-bottom:1px solid var(--border); cursor:pointer; }
+  .subject-item:last-child { border-bottom:none; }
+  .subject-name { font-size:14px; font-weight:600; }
+  .subject-meta { font-size:12px; color:var(--text-muted); margin-top:3px; }
+  .subject-bar { height:5px; background:var(--border); border-radius:3px; margin-top:7px; overflow:hidden; }
+  .subject-bar-fill { height:100%; background:var(--primary); border-radius:3px; transition:width 0.5s; }
+  
+  /* TOPIC LIST */
+  .topic-item { display:flex; align-items:center; gap:10px; padding:11px 12px; background:var(--card); border-radius:10px; margin:8px 16px; box-shadow:var(--shadow); cursor:pointer; transition:transform 0.1s; }
+  .topic-item:active { transform:scale(0.98); }
+  .topic-stars { color:var(--accent); font-size:12px; white-space:nowrap; }
+  .topic-name { flex:1; font-size:13px; line-height:1.4; }
+  .topic-badge { font-size:10px; padding:3px 8px; border-radius:20px; font-weight:600; white-space:nowrap; }
+  .badge-high { background:#fde8e8; color:#c0392b; }
+  .badge-med-high { background:#fff3e0; color:#e67e22; }
+  .badge-med { background:#e8f5e9; color:#27ae60; }
+  .badge-low { background:#e3f2fd; color:#2196F3; }
+  .badge-vlow { background:#f5f5f5; color:#999; }
+  
+  /* QUIZ */
+  .quiz-header { padding:16px; display:flex; align-items:center; gap:12px; }
+  .quiz-progress { flex:1; height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .quiz-progress-fill { height:100%; background:var(--primary); border-radius:4px; transition:width 0.3s; }
+  .question-card { margin:0 16px 16px; }
+  .question-text { font-size:15px; line-height:1.7; font-weight:600; margin-bottom:16px; }
+  .options-list { display:flex; flex-direction:column; gap:10px; }
+  .option-btn { padding:13px 16px; border:2px solid var(--border); border-radius:12px; background:var(--card); text-align:left; cursor:pointer; font-size:14px; font-family:var(--font); color:var(--text); transition:all 0.2s; line-height:1.4; }
+  .option-btn:hover { border-color:var(--primary); }
+  .option-btn.correct { background:#e8f5e9; border-color:var(--success); color:var(--success); }
+  .option-btn.wrong { background:#fde8e8; border-color:var(--danger); color:var(--danger); }
+  .option-btn.reveal { background:#fff3cd; border-color:var(--warning); }
+  
+  /* EXPLANATION */
+  .explanation { margin:12px 16px; padding:14px; background:#e8f5e9; border-radius:12px; border-left:4px solid var(--success); font-size:13px; line-height:1.6; }
+  .explanation.wrong-exp { background:#fde8e8; border-color:var(--danger); }
+  
+  /* FLASHCARDS */
+  .flashcard { margin:16px; perspective:1000px; height:220px; }
+  .flashcard-inner { position:relative; width:100%; height:100%; transition:transform 0.6s; transform-style:preserve-3d; cursor:pointer; }
+  .flashcard-inner.flipped { transform:rotateY(180deg); }
+  .flashcard-front, .flashcard-back { position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; padding:20px; text-align:center; }
+  .flashcard-front { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color:#fff; font-size:16px; font-weight:600; line-height:1.5; }
+  .flashcard-back { background: linear-gradient(135deg, var(--secondary), #1b4332); color:#fff; transform:rotateY(180deg); font-size:14px; line-height:1.6; }
+  
+  /* NOTES */
+  .note-area { width:100%; border:1px solid var(--border); border-radius:10px; padding:12px; font-family:var(--font); font-size:14px; background:var(--card); color:var(--text); resize:none; min-height:120px; }
+  .note-area:focus { outline:none; border-color:var(--primary); }
+  
+  /* PLANNER */
+  .planner-day { background:var(--card); border-radius:12px; margin:8px 16px; padding:14px; box-shadow:var(--shadow); }
+  .planner-date { font-size:13px; font-weight:700; color:var(--primary); margin-bottom:10px; }
+  .task-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .task-item:last-child { border-bottom:none; }
+  .task-check { width:20px; height:20px; border-radius:5px; border:2px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s; }
+  .task-check.done { background:var(--success); border-color:var(--success); color:#fff; }
+  .task-text { flex:1; font-size:13px; }
+  .task-text.done { text-decoration:line-through; color:var(--text-muted); }
+  
+  /* PROGRESS */
+  .progress-subject { margin:8px 16px; background:var(--card); border-radius:12px; padding:14px; box-shadow:var(--shadow); }
+  .progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .progress-name { font-size:13px; font-weight:600; }
+  .progress-pct { font-size:13px; font-weight:700; color:var(--primary); }
+  .progress-bar { height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .progress-fill { height:100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius:4px; transition:width 0.5s; }
+  
+  /* SETTINGS */
+  .settings-item { display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--border); }
+  .settings-item:last-child { border-bottom:none; }
+  .settings-label { font-size:14px; }
+  .settings-sub { font-size:12px; color:var(--text-muted); margin-top:2px; }
+  .toggle { width:44px; height:24px; background:var(--border); border-radius:12px; cursor:pointer; position:relative; transition:background 0.2s; }
+  .toggle.on { background:var(--primary); }
+  .toggle::after { content:''; position:absolute; width:18px; height:18px; background:#fff; border-radius:50%; top:3px; left:3px; transition:transform 0.2s; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+  .toggle.on::after { transform:translateX(20px); }
+  
+  /* BUTTONS */
+  .btn { padding:13px 20px; border-radius:12px; border:none; font-family:var(--font); font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .btn-primary { background:var(--primary); color:#fff; width:100%; }
+  .btn-primary:hover { background:var(--primary-dark); }
+  .btn-outline { background:transparent; color:var(--primary); border:2px solid var(--primary); }
+  .btn-sm { padding:8px 14px; font-size:13px; border-radius:9px; }
+  
+  /* INPUT */
+  .input { width:100%; padding:12px 14px; border:2px solid var(--border); border-radius:10px; font-family:var(--font); font-size:14px; background:var(--card); color:var(--text); transition:border 0.2s; }
+  .input:focus { outline:none; border-color:var(--primary); }
+  .label { font-size:13px; font-weight:600; color:var(--text-muted); margin-bottom:6px; display:block; }
+  
+  /* MODAL */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; display:none; align-items:flex-end; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--card); border-radius:var(--radius) var(--radius) 0 0; padding:20px; width:100%; max-height:85vh; overflow-y:auto; animation:slideUp 0.3s ease; }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-title { font-size:17px; font-weight:700; margin-bottom:16px; }
+  .modal-close { float:right; background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-muted); }
+  
+  /* TOAST */
+  .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:10px 20px; border-radius:30px; font-size:13px; z-index:300; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+  .toast.show { opacity:1; }
+  
+  /* SETUP */
+  .setup-screen { position:fixed; inset:0; background:var(--bg); z-index:500; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; text-align:center; }
+  .setup-logo { font-size:60px; margin-bottom:16px; }
+  .setup-title { font-size:22px; font-weight:800; color:var(--primary); margin-bottom:8px; }
+  .setup-sub { font-size:14px; color:var(--text-muted); margin-bottom:30px; line-height:1.6; }
+  
+  /* LOADING */
+  .loading { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; gap:14px; }
+  .spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--primary); border-radius:50%; animation:spin 0.8s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* SECTION */
+  .section-header { padding:12px 16px 6px; font-size:13px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; }
+  
+  /* BOOKMARK */
+  .bookmark-btn { background:none; border:none; cursor:pointer; padding:4px; color:var(--text-muted); }
+  .bookmark-btn.bookmarked { color:var(--accent); }
+  
+  /* QUIZ RESULT */
+  .result-card { text-align:center; padding:30px 20px; }
+  .result-score { font-size:52px; font-weight:800; color:var(--primary); }
+  .result-total { font-size:18px; color:var(--text-muted); }
+  .result-msg { font-size:16px; margin:12px 0; }
+  .result-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+  .result-stat { background:var(--bg); border-radius:10px; padding:14px; }
+  .result-stat-num { font-size:24px; font-weight:800; }
+  .result-stat-label { font-size:12px; color:var(--text-muted); margin-top:2px; }
+
+  /* Chip select */
+  .chip-group { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+  .chip { padding:7px 14px; border-radius:20px; border:2px solid var(--border); background:var(--card); font-size:13px; cursor:pointer; color:var(--text); font-family:var(--font); transition:all 0.2s; }
+  .chip.selected { background:var(--primary); color:#fff; border-color:var(--primary); }
+  
+  /* Number input */
+  .num-input-row { display:flex; align-items:center; gap:10px; }
+  .num-btn { width:36px; height:36px; border-radius:50%; border:2px solid var(--primary); background:var(--card); color:var(--primary); font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .num-display { font-size:22px; font-weight:700; min-width:40px; text-align:center; }
+  
+  .gap-8 { gap:8px; }
+  .flex { display:flex; }
+  .flex-col { flex-direction:column; }
+  .items-center { align-items:center; }
+  .justify-between { justify-content:space-between; }
+  .mt-8 { margin-top:8px; }
+  .mt-12 { margin-top:12px; }
+  .mb-8 { margin-bottom:8px; }
+  .text-center { text-align:center; }
+  .text-sm { font-size:13px; }
+  .text-muted { color:var(--text-muted); }
+  .font-bold { font-weight:700; }
+  .w-full { width:100%; }
+  .p-16 { padding:16px; }
+  .hidden { display:none !important; }
+  
+  @media(min-width:600px){
+    .page { max-width:600px; margin:0 auto; }
+    .nav { max-width:600px; left:50%; transform:translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div class="setup-screen" id="setupScreen">
+  <div class="setup-logo">📚</div>
+  <div class="setup-title">RPSC परीक्षा तैयारी</div>
+  <div class="setup-sub">प्रथम श्रेणी शिक्षक भर्ती परीक्षा<br>AI-powered quiz और विश्लेषण</div>
+  <div style="width:100%;text-align:left;margin-bottom:8px;">
+    <label class="label">Google Gemini API Key</label>
+    <input type="password" class="input" id="setupApiKey" placeholder="AIza...अपनी API Key डालें">
+    <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">🔒 यह key सिर्फ आपके device पर save होती है।<br>Get free key: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--primary)">aistudio.google.com</a></p>
+  </div>
+  <button class="btn btn-primary mt-12" onclick="saveSetup()">शुरू करें →</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="header" id="mainHeader" style="display:none">
+  <div class="header-top">
+    <div>
+      <div class="header h1" style="font-size:17px;font-weight:700;">📚 RPSC तैयारी</div>
+      <div class="header-sub">प्रथम श्रेणी शिक्षक | Paper - I</div>
+    </div>
+    <div id="headerCountdown" style="text-align:right;font-size:12px;opacity:0.9;font-weight:600;"></div>
+  </div>
+</div>
+
+<!-- MAIN NAV -->
+<nav class="nav" id="mainNav" style="display:none">
+  <button class="nav-btn active" onclick="showPage('home')" id="nav-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    होम
+  </button>
+  <button class="nav-btn" onclick="showPage('topics')" id="nav-topics">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+    टॉपिक
+  </button>
+  <button class="nav-btn" onclick="showPage('quiz')" id="nav-quiz">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    क्विज़
+  </button>
+  <button class="nav-btn" onclick="showPage('flashcards')" id="nav-flashcards">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 8v4M12 16h.01"/></svg>
+    फ्लैशकार्ड
+  </button>
+  <button class="nav-btn" onclick="showPage('progress')" id="nav-progress">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    प्रगति
+  </button>
+</nav>
+
+<!-- PAGE: HOME -->
+<div class="page active" id="page-home">
+  <!-- Countdown -->
+  <div class="countdown-card" id="countdownCard">
+    <div class="exam-label">🎯 परीक्षा में बचा समय</div>
+    <div class="exam-date">16 मई 2026, शुक्रवार</div>
+    <div class="countdown-grid">
+      <div class="count-unit"><div class="count-num" id="cd-days">--</div><div class="count-label">दिन</div></div>
+      <div class="count-unit"><div class="count-num" id="cd-hours">--</div><div class="count-label">घंटे</div></div>
+      <div class="count-unit"><div class="count-num" id="cd-mins">--</div><div class="count-label">मिनट</div></div>
+      <div class="count-unit"><div class="count-num" id="cd-secs">--</div><div class="count-label">सेकंड</div></div>
+    </div>
+  </div>
+  
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="statQuizzes">0</div><div class="stat-label">क्विज़ दिए</div></div>
+    <div class="stat-card"><div class="stat-num" id="statAccuracy">0%</div><div class="stat-label">शुद्धता</div></div>
+    <div class="stat-card"><div class="stat-num" id="statFlash">0</div><div class="stat-label">फ्लैशकार्ड</div></div>
+  </div>
+  
+  <!-- Daily goal -->
+  <div class="card">
+    <div class="card-title">📅 आज का लक्ष्य</div>
+    <div id="dailyGoalContent">
+      <p style="font-size:13px;color:var(--text-muted);">3-4 घंटे की पढ़ाई के लिए आज का प्लान:</p>
+      <div id="dailyGoalList" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  
+  <!-- Quick actions -->
+  <div class="card">
+    <div class="card-title">⚡ त्वरित क्रिया</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button class="btn btn-primary" onclick="quickQuiz()">🎯 तुरंत क्विज़</button>
+      <button class="btn btn-outline" onclick="showPage('flashcards')">📝 फ्लैशकार्ड</button>
+      <button class="btn btn-outline" onclick="showPage('topics')">📋 टॉपिक देखें</button>
+      <button class="btn btn-outline" onclick="showNotes()">✏️ नोट्स लिखें</button>
+    </div>
+  </div>
+  
+  <!-- Top topics -->
+  <div class="section-header">🔥 सबसे महत्वपूर्ण टॉपिक</div>
+  <div id="topTopicsHome"></div>
+  
+  <!-- Notes shortcut -->
+  <div class="card" id="notesHome">
+    <div class="card-title" style="justify-content:space-between;">
+      ✏️ त्वरित नोट्स
+      <button class="btn btn-sm btn-outline" onclick="showNotes()">सभी देखें</button>
+    </div>
+    <textarea class="note-area" id="quickNote" placeholder="यहाँ कुछ लिखें..." rows="3" oninput="saveQuickNote()"></textarea>
+  </div>
+</div>
+
+<!-- PAGE: TOPICS -->
+<div class="page" id="page-topics">
+  <div class="card" style="margin-top:16px;">
+    <input type="text" class="input" id="topicSearch" placeholder="🔍 टॉपिक खोजें..." oninput="filterTopics()">
+    <div class="chip-group" id="importanceFilter" style="margin-top:10px;">
+      <div class="chip selected" onclick="filterByImportance('all',this)">सभी</div>
+      <div class="chip" onclick="filterByImportance('उच्च',this)">⭐⭐⭐⭐⭐ उच्च</div>
+      <div class="chip" onclick="filterByImportance('मध्यम-उच्च',this)">⭐⭐⭐⭐ मध्यम-उच्च</div>
+      <div class="chip" onclick="filterByImportance('मध्यम',this)">⭐⭐⭐ मध्यम</div>
+    </div>
+  </div>
+  <div id="topicsList"></div>
+</div>
+
+<!-- PAGE: QUIZ -->
+<div class="page" id="page-quiz">
+  <!-- Quiz setup -->
+  <div id="quizSetup">
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">🎯 क्विज़ सेटअप</div>
+      
+      <label class="label">विषय चुनें</label>
+      <div class="chip-group" id="subjectChips"></div>
+      
+      <label class="label mt-12">प्रश्नों की संख्या</label>
+      <div class="num-input-row">
+        <button class="num-btn" onclick="changeQCount(-5)">−</button>
+        <div class="num-display" id="qCountDisplay">10</div>
+        <button class="num-btn" onclick="changeQCount(5)">+</button>
+      </div>
+      
+      <label class="label mt-12">कठिनाई</label>
+      <div class="chip-group" id="difficultyChips">
+        <div class="chip selected" onclick="selectChip(this,'difficultyChips')">सभी</div>
+        <div class="chip" onclick="selectChip(this,'difficultyChips')">आसान</div>
+        <div class="chip" onclick="selectChip(this,'difficultyChips')">मध्यम</div>
+        <div class="chip" onclick="selectChip(this,'difficultyChips')">कठिन</div>
+      </div>
+      
+      <button class="btn btn-primary mt-12" onclick="startQuiz()" id="startQuizBtn">🚀 क्विज़ शुरू करें</button>
+    </div>
+    
+    <!-- Bookmarked quiz -->
+    <div class="card" id="bookmarkQuizCard" style="display:none;">
+      <div class="card-title">🔖 बुकमार्क की गई प्रश्नों की क्विज़</div>
+      <p style="font-size:13px;color:var(--text-muted);" id="bookmarkCount">0 प्रश्न बुकमार्क किए गए हैं</p>
+      <button class="btn btn-outline mt-12" onclick="startBookmarkQuiz()" style="width:100%">📖 बुकमार्क क्विज़ शुरू करें</button>
+    </div>
+  </div>
+  
+  <!-- Quiz active -->
+  <div id="quizActive" style="display:none;">
+    <div class="quiz-header">
+      <button onclick="exitQuiz()" style="background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
+      <div class="quiz-progress">
+        <div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div>
+      </div>
+      <div style="font-size:13px;font-weight:700;white-space:nowrap;" id="quizCounter">1/10</div>
+    </div>
+    <div class="card question-card">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;" id="questionSubject"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options-list" id="optionsList"></div>
+    </div>
+    <div id="explanationArea"></div>
+    <div style="padding:0 16px;" id="quizNav" style="display:none;">
+      <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="display:none;">अगला प्रश्न →</button>
+    </div>
+    <div style="padding:0 16px;display:flex;gap:10px;margin-top:8px;" id="quizActions" style="display:none;">
+      <button class="btn btn-outline btn-sm" onclick="bookmarkCurrent()" id="bookmarkCurrentBtn">🔖 बुकमार्क करें</button>
+      <button class="btn btn-outline btn-sm" onclick="addToFlashcard()" id="addFlashBtn">📝 फ्लैशकार्ड बनाएं</button>
+    </div>
+  </div>
+  
+  <!-- Quiz result -->
+  <div id="quizResult" style="display:none;">
+    <div class="card result-card">
+      <div style="font-size:36px;margin-bottom:8px;" id="resultEmoji">🎉</div>
+      <div class="result-score" id="resultScore">0</div>
+      <div class="result-total" id="resultTotal">/10 सही</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-grid">
+        <div class="result-stat"><div class="result-stat-num" style="color:var(--success)" id="resCorrect">0</div><div class="result-stat-label">✅ सही</div></div>
+        <div class="result-stat"><div class="result-stat-num" style="color:var(--danger)" id="resWrong">0</div><div class="result-stat-label">❌ गलत</div></div>
+        <div class="result-stat"><div class="result-stat-num" style="color:var(--warning)" id="resBookmarked">0</div><div class="result-stat-label">🔖 बुकमार्क</div></div>
+        <div class="result-stat"><div class="result-stat-num" style="color:var(--info)" id="resFlash">0</div><div class="result-stat-label">📝 फ्लैशकार्ड</div></div>
+      </div>
+      <button class="btn btn-primary mt-12" onclick="resetQuiz()">🔄 फिर से खेलें</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: FLASHCARDS -->
+<div class="page" id="page-flashcards">
+  <div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-size:16px;font-weight:700;">📝 फ्लैशकार्ड</div>
+      <div style="font-size:12px;color:var(--text-muted);" id="flashTotalLabel">कुल: 0 कार्ड</div>
+    </div>
+    <button class="btn btn-sm btn-primary" onclick="startFlashSession()">अभ्यास शुरू करें</button>
+  </div>
+  
+  <!-- Flash session -->
+  <div id="flashSession" style="display:none;">
+    <div class="quiz-header">
+      <button onclick="endFlashSession()" style="background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
+      <div class="quiz-progress">
+        <div class="quiz-progress-fill" id="flashProgressFill" style="width:0%"></div>
+      </div>
+      <div style="font-size:13px;font-weight:700;" id="flashCounter">1/10</div>
+    </div>
+    <div class="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner" id="flashcardInner">
+        <div class="flashcard-front" id="flashFront">प्रश्न</div>
+        <div class="flashcard-back" id="flashBack">उत्तर</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-bottom:12px;">👆 कार्ड पर टैप करें</div>
+    <div style="display:flex;gap:10px;padding:0 16px;">
+      <button class="btn btn-outline w-full" style="color:var(--danger);border-color:var(--danger);" onclick="flashResult('hard')">😓 कठिन</button>
+      <button class="btn btn-primary w-full" onclick="flashResult('easy')">✅ जानता हूँ</button>
+    </div>
+    <button onclick="deleteCurrentFlash()" style="display:block;margin:10px auto;background:none;border:none;font-size:12px;color:var(--text-muted);cursor:pointer;">🗑️ इस कार्ड को हटाएं</button>
+  </div>
+  
+  <!-- Flash list -->
+  <div id="flashList" style="margin-top:12px;"></div>
+  <div id="flashEmpty" class="loading" style="display:none;">
+    <div style="font-size:48px;">📭</div>
+    <div style="font-size:15px;font-weight:600;">कोई फ्लैशकार्ड नहीं</div>
+    <div style="font-size:13px;color:var(--text-muted);">क्विज़ में गलत उत्तरों से फ्लैशकार्ड बनाएं</div>
+  </div>
+</div>
+
+<!-- PAGE: PROGRESS -->
+<div class="page" id="page-progress">
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">📊 समग्र प्रगति</div>
+    <div class="stats-row" style="margin:0 0 12px;">
+      <div class="stat-card" style="margin:0;"><div class="stat-num" id="totalAttempts">0</div><div class="stat-label">प्रयास</div></div>
+      <div class="stat-card" style="margin:0;"><div class="stat-num" id="totalCorrect">0</div><div class="stat-label">सही</div></div>
+      <div class="stat-card" style="margin:0;"><div class="stat-num" id="overallAccuracy">0%</div><div class="stat-label">शुद्धता</div></div>
+    </div>
+    
+    <!-- Study time -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border);">
+      <span style="font-size:13px;">📅 आज पढ़ाई का समय</span>
+      <span style="font-size:14px;font-weight:700;color:var(--primary);" id="studyTime">0 मिनट</span>
+    </div>
+  </div>
+  
+  <div class="section-header">विषयवार प्रगति</div>
+  <div id="progressBySubject"></div>
+  
+  <!-- Notes section in progress -->
+  <div class="section-header">✏️ मेरे नोट्स</div>
+  <div class="card">
+    <div id="notesList"></div>
+    <button class="btn btn-outline mt-12 w-full" onclick="addNote()">+ नया नोट जोड़ें</button>
+  </div>
+</div>
+
+<!-- NOTES MODAL -->
+<div class="modal-overlay" id="notesModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('notesModal')">✕</button>
+    <div class="modal-title">✏️ नोट्स</div>
+    <div id="notesModalContent"></div>
+    <div style="margin-top:12px;">
+      <label class="label">नया नोट</label>
+      <textarea class="note-area" id="newNoteText" placeholder="यहाँ नोट लिखें..."></textarea>
+      <input type="text" class="input mt-12" id="newNoteTag" placeholder="टैग (जैसे: इतिहास, राजनीति)">
+      <button class="btn btn-primary mt-12" onclick="saveNote()">💾 सहेजें</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC DETAIL MODAL -->
+<div class="modal-overlay" id="topicModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('topicModal')">✕</button>
+    <div class="modal-title" id="topicModalTitle"></div>
+    <div id="topicModalContent"></div>
+  </div>
+</div>
+
+<!-- LOADING MODAL -->
+<div class="modal-overlay" id="loadingModal">
+  <div class="modal" style="border-radius:var(--radius);text-align:center;">
+    <div class="spinner" style="margin:0 auto 12px;"></div>
+    <div id="loadingMsg" style="font-size:14px;">AI से प्रश्न बना रहे हैं...</div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const EXAM_DATE = new Date('2026-05-16T10:00:00');
+const SUBJECTS_DATA = {"भारतीय इतिहास":[{"microTopic":"1857 का स्वतन्त्रता संग्राम","average":0.267,"importance":"कम","stars":2},{"microTopic":"राष्ट्रवाद का विकास (1858 - 1919)","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"सामूहिक राष्ट्रवाद का उदय (1919 - 1942)","average":1.267,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"क्रन्तिकारी गतिविधियाँ","average":0.333,"importance":"कम","stars":2},{"microTopic":"स्वतंत्रता व विभाजन की तरफ","average":0.133,"importance":"कम","stars":2},{"microTopic":"19 वीं व 20 वीं सदी में सामाजिक व धार्मिक पुनर्जागरण","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"प्रमुख नेतृत्वकर्ता - सावरकर, बंकिम चन्द्र, लाल-बाल-पाल, भगत सिंह, सुभाषचंद्र बोस","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"महात्मा गाँधी, नेहरु, पटेल, मौलाना आज़ाद व आंबेडकर","average":1.067,"importance":"मध्यम-उच्च","stars":4}],"राजस्थान की प्राचीन सभ्यताएँ":[{"microTopic":"कालीबंगा","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"आहड़","average":0.267,"importance":"कम","stars":2},{"microTopic":"गणेश्वर","average":0.133,"importance":"कम","stars":2},{"microTopic":"बैराठ","average":0.133,"importance":"कम","stars":2}],"राजस्थान का मध्यकालीन इतिहास":[{"microTopic":"गुर्जर - प्रतिहार","average":0.267,"importance":"कम","stars":2},{"microTopic":"अजमेर के चौहान","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"मेवाड़, रणथम्भौर व जालौर का दिल्ली से सम्बन्ध","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"राणा सांगा","average":0.267,"importance":"कम","stars":2},{"microTopic":"महाराणा प्रताप","average":0.267,"importance":"कम","stars":2},{"microTopic":"मेवाड़ के राजसिंह","average":0.133,"importance":"कम","stars":2}],"राजस्थान में स्वतंत्रता संग्राम":[{"microTopic":"1857 की क्रांति","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"राजनैतिक जागरण","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"प्रजामंडल आन्दोलन","average":0.333,"importance":"कम","stars":2},{"microTopic":"किसान व जनजातीय आन्दोलन","average":0.6,"importance":"मध्यम","stars":3}],"राजस्थान का एकीकरण":[{"microTopic":"राजस्थान का एकीकरण","average":0.6,"importance":"मध्यम","stars":3}],"समाज व धर्म (राजस्थान)":[{"microTopic":"लोक देवी व देवता","average":0.333,"importance":"कम","stars":2},{"microTopic":"राजस्थान के संत","average":0.133,"importance":"कम","stars":2},{"microTopic":"स्थापत्य - मंदिर, किले व महल","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"चित्रकला - विभिन्न शैलियाँ","average":0.333,"importance":"कम","stars":2},{"microTopic":"लोक नृत्य व संगीत","average":0.333,"importance":"कम","stars":2},{"microTopic":"भाषा व साहित्य","average":0.533,"importance":"मध्यम","stars":3}],"मानसिक अभियोग्यता":[{"microTopic":"श्रेणी पूर्तिकरण","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"कूट वाचन","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"रक्त सम्बन्ध","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"तार्किक वेन आरेख","average":0.133,"importance":"कम","stars":2}],"सांख्यिकी":[{"microTopic":"आंकड़ों का ग्राफीय निरूपण","average":0.333,"importance":"कम","stars":2},{"microTopic":"केन्द्रीय प्रवृत्ति के माप - माध्य, माध्यक, बहुलक","average":1.467,"importance":"मध्यम-उच्च","stars":4}],"क्षेत्रमिति":[{"microTopic":"क्षेत्रमिति","average":2.6,"importance":"उच्च","stars":5}],"सामान्य हिंदी":[{"microTopic":"संधि व संधि विच्छेद","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"उपसर्ग व प्रत्यय","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"अनेकार्थक व विलोम शब्द","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"शब्द शुद्धि व वाक्य शुद्धि","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"अंग्रेजी के पारिभाषिक शब्द","average":0.6,"importance":"मध्यम","stars":3}],"General English":[{"microTopic":"Tenses / sequence of tenses","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"Active & Passive Voice","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"Direct & Indirect Speech","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"Synonyms & Antonyms","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"Preposition","average":0.533,"importance":"मध्यम","stars":3}],"समसामयिकी":[{"microTopic":"Current Affairs","average":10.0,"importance":"उच्च","stars":5}],"सामान्य विज्ञान":[{"microTopic":"अणु परमाणु","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"रासायनिक अभिक्रिया व समीकरण","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"बल व गति के नियम","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"कार्य व उर्जा","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"नियन्त्रण व समन्वय","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"आनुवंशिकता व विकास","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"प्राकृतिक संसाधनों का प्रबंधन","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"विज्ञान व तकनीक में नवीन विकास","average":1.0,"importance":"मध्यम-उच्च","stars":4}],"भारतीय राजव्यवस्था":[{"microTopic":"भारतीय संविधान की विशेषताएँ","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"राष्ट्रपति","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"संसद","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"सर्वोच्च न्यायलय","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"मंत्री परिषद","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"चुनाव आयोग","average":0.267,"importance":"कम","stars":2}],"राजस्थान का भूगोल":[{"microTopic":"भौतिक विशेषताएँ","average":0.933,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"जनसांख्यिकीय विशेषताएँ","average":1.333,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"जलवायु","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"खनिज सम्पदा","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"कृषि","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"पशुधन","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"जल निकास","average":0.6,"importance":"मध्यम","stars":3}],"शैक्षिक मनोविज्ञान":[{"microTopic":"किशोर अधिगमकर्ता का विकास","average":2.6,"importance":"उच्च","stars":5},{"microTopic":"अधिगम के दृष्टिकोण","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"मानसिक स्वास्थ्य","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"भावनात्मक बुद्धिमत्ता","average":0.6,"importance":"मध्यम","stars":3}],"शैक्षिक प्रबन्धन":[{"microTopic":"अवधारणा, कार्य व सिद्धांत","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"शिक्षा में सामाजिक संगठन व नेतृत्व","average":0.267,"importance":"कम","stars":2}],"राजस्थान में शैक्षिक परिदृश्य":[{"microTopic":"SCERT","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"DIET","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"गुणवत्तापूर्ण शिक्षा के लिए राज्य की पहल","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"NEP 2020 के निहितार्थ","average":0.2,"importance":"कम","stars":2}],"NEP & RTE":[{"microTopic":"बालकों का नि:शुल्क व अनिवार्य शिक्षा का अधिकार अधिनियम 2009","average":1.667,"importance":"उच्च","stars":5}]};
+
+// ===================== STATE =====================
+let state = {
+  apiKey: '',
+  quizQuestions: [],
+  currentQ: 0,
+  quizAnswers: [],
+  quizCorrect: 0,
+  quizWrong: 0,
+  quizNewFlash: 0,
+  quizNewBookmark: 0,
+  quizCount: 10,
+  selectedSubjects: [],
+  flashcards: [],
+  flashIdx: 0,
+  flashFlipped: false,
+  bookmarks: [],
+  notes: [],
+  stats: { totalQuizzes:0, totalCorrect:0, totalAttempts:0 },
+  progress: {},
+  quickNote: '',
+  studyStart: Date.now(),
+  importanceFilter: 'all'
+};
+
+// ===================== INIT =====================
+function init() {
+  const saved = localStorage.getItem('rpsc_state');
+  if (saved) {
+    try { const s = JSON.parse(saved); Object.assign(state, s); } catch(e){}
+  }
+  const apiKey = localStorage.getItem('rpsc_api');
+  if (apiKey) {
+    state.apiKey = apiKey;
+    showApp();
+  } else {
+    document.getElementById('setupScreen').style.display = 'flex';
+  }
+}
+
+function saveSetup() {
+  const key = document.getElementById('setupApiKey').value.trim();
+  if (!key || key.length < 10) { showToast('❌ कृपया सही API Key डालें'); return; }
+  localStorage.setItem('rpsc_api', key);
+  state.apiKey = key;
+  showApp();
+}
+
+function showApp() {
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('mainHeader').style.display = 'block';
+  document.getElementById('mainNav').style.display = 'flex';
+  renderHome();
+  renderTopics();
+  renderQuizSetup();
+  renderFlashcards();
+  renderProgress();
+  startCountdown();
+  loadQuickNote();
+  trackStudyTime();
+}
+
+function saveState() {
+  const toSave = {...state};
+  delete toSave.apiKey;
+  localStorage.setItem('rpsc_state', JSON.stringify(toSave));
+}
+
+// ===================== COUNTDOWN =====================
+function startCountdown() {
+  function update() {
+    const now = new Date();
+    const diff = EXAM_DATE - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent = '0';
+      document.getElementById('cd-secs').textContent = '0';
+      document.getElementById('headerCountdown').textContent = '🎯 परीक्षा का दिन!';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hrs = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = String(hrs).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+    document.getElementById('headerCountdown').textContent = `⏰ ${days} दिन बाकी`;
+  }
+  update();
+  setInterval(update, 1000);
+}
+
+function trackStudyTime() {
+  setInterval(() => {
+    const mins = Math.floor((Date.now() - state.studyStart) / 60000);
+    const el = document.getElementById('studyTime');
+    if (el) el.textContent = `${mins} मिनट`;
+  }, 60000);
+}
+
+// ===================== NAVIGATION =====================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('nav-'+page).classList.add('active');
+  if (page === 'flashcards') renderFlashcards();
+  if (page === 'progress') renderProgress();
+}
+
+// ===================== HOME =====================
+function renderHome() {
+  // Stats
+  document.getElementById('statQuizzes').textContent = state.stats.totalQuizzes;
+  const acc = state.stats.totalAttempts > 0 ? Math.round(state.stats.totalCorrect/state.stats.totalAttempts*100) : 0;
+  document.getElementById('statAccuracy').textContent = acc + '%';
+  document.getElementById('statFlash').textContent = state.flashcards.length;
+  
+  // Top topics
+  const allTopics = [];
+  Object.entries(SUBJECTS_DATA).forEach(([subj, topics]) => {
+    topics.forEach(t => allTopics.push({...t, subject: subj}));
+  });
+  const top = allTopics.sort((a,b) => b.average - a.average).slice(0,5);
+  const el = document.getElementById('topTopicsHome');
+  el.innerHTML = top.map(t => `
+    <div class="topic-item" onclick="openTopicModal('${t.subject}','${t.microTopic.replace(/'/g,"\\'")}')">
+      <div class="topic-stars">${'⭐'.repeat(t.stars)}</div>
+      <div class="topic-name"><strong>${t.subject}</strong><br>${t.microTopic}</div>
+      <span class="topic-badge ${badgeClass(t.importance)}">${t.importance}</span>
+    </div>
+  `).join('');
+  
+  // Daily goal
+  renderDailyGoal();
+}
+
+function renderDailyGoal() {
+  const today = new Date().toDateString();
+  let goals = JSON.parse(localStorage.getItem('rpsc_goals_'+today) || 'null');
+  if (!goals) {
+    const allTopics = [];
+    Object.entries(SUBJECTS_DATA).forEach(([s,ts]) => ts.forEach(t => allTopics.push({...t,subject:s})));
+    const top = allTopics.sort((a,b)=>b.average-a.average).slice(0,4);
+    goals = top.map((t,i) => ({id:i, text:`${t.subject}: ${t.microTopic}`, done:false}));
+    goals.push({id:4, text:'10 फ्लैशकार्ड दोहराएं', done:false});
+    localStorage.setItem('rpsc_goals_'+today, JSON.stringify(goals));
+  }
+  const el = document.getElementById('dailyGoalList');
+  el.innerHTML = goals.map(g => `
+    <div class="task-item">
+      <div class="task-check ${g.done?'done':''}" onclick="toggleGoal(${g.id})">
+        ${g.done?'✓':''}
+      </div>
+      <div class="task-text ${g.done?'done':''}">${g.text}</div>
+    </div>
+  `).join('');
+}
+
+function toggleGoal(id) {
+  const today = new Date().toDateString();
+  let goals = JSON.parse(localStorage.getItem('rpsc_goals_'+today) || '[]');
+  goals = goals.map(g => g.id === id ? {...g, done:!g.done} : g);
+  localStorage.setItem('rpsc_goals_'+today, JSON.stringify(goals));
+  renderDailyGoal();
+}
+
+function badgeClass(imp) {
+  const map = {'उच्च':'badge-high','मध्यम-उच्च':'badge-med-high','मध्यम':'badge-med','कम':'badge-low','अत्यल्प':'badge-vlow'};
+  return map[imp] || 'badge-vlow';
+}
+
+// ===================== TOPICS =====================
+function renderTopics() {
+  const el = document.getElementById('topicsList');
+  el.innerHTML = '';
+  const search = document.getElementById('topicSearch')?.value?.toLowerCase() || '';
+  const filter = state.importanceFilter;
+  
+  Object.entries(SUBJECTS_DATA).forEach(([subj, topics]) => {
+    let filtered = topics;
+    if (search) filtered = filtered.filter(t => t.microTopic.toLowerCase().includes(search) || subj.toLowerCase().includes(search));
+    if (filter !== 'all') filtered = filtered.filter(t => t.importance === filter);
+    if (filtered.length === 0) return;
+    
+    const maxAvg = Math.max(...topics.map(t=>t.average));
+    
+    el.innerHTML += `<div class="section-header">${subj}</div>`;
+    filtered.forEach(t => {
+      const prog = state.progress[t.microTopic] || 0;
+      el.innerHTML += `
+        <div class="topic-item" onclick="openTopicModal('${subj}','${t.microTopic.replace(/'/g,"\\'")}')">
+          <div>
+            <div class="topic-stars">${'⭐'.repeat(t.stars)}</div>
+            <div style="font-size:10px;color:var(--text-muted);">औसत: ${t.average}</div>
+          </div>
+          <div class="topic-name">${t.microTopic}</div>
+          <div style="text-align:right;">
+            <span class="topic-badge ${badgeClass(t.importance)}">${t.importance}</span>
+            ${prog > 0 ? `<div style="font-size:10px;color:var(--success);margin-top:3px;">${prog}% पूर्ण</div>` : ''}
+          </div>
+        </div>
+      `;
+    });
+  });
+}
+
+function filterTopics() { renderTopics(); }
+
+function filterByImportance(val, el) {
+  state.importanceFilter = val;
+  document.querySelectorAll('#importanceFilter .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  renderTopics();
+}
+
+function openTopicModal(subj, topic) {
+  const t = SUBJECTS_DATA[subj]?.find(x => x.microTopic === topic);
+  if (!t) return;
+  document.getElementById('topicModalTitle').textContent = topic;
+  document.getElementById('topicModalContent').innerHTML = `
+    <div style="margin-bottom:12px;">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+        <span class="topic-badge ${badgeClass(t.importance)}" style="font-size:13px;padding:5px 12px;">${t.importance}</span>
+        <span style="font-size:20px;">${'⭐'.repeat(t.stars)}</span>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);">विषय: <strong>${subj}</strong></div>
+      <div style="font-size:13px;color:var(--text-muted);">15 पेपर का औसत: <strong style="color:var(--primary)">${t.average} प्रश्न/पेपर</strong></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+      <button class="btn btn-primary" onclick="quizOnTopic('${subj}','${topic.replace(/'/g,"\\'")}');closeModal('topicModal')">🎯 इस टॉपिक पर क्विज़</button>
+      <button class="btn btn-outline" onclick="closeModal('topicModal')">बंद करें</button>
+    </div>
+    <div style="background:var(--bg);border-radius:10px;padding:12px;">
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px;">📊 पिछले वर्षों में प्रश्न:</div>
+      <div style="font-size:12px;color:var(--text-muted);">2011, 2013, 2015, 2018 (A,B,C), 2022 (A,B,C,D), 2024 (A,B,C,D,E) के पेपर के आधार पर औसत ${t.average} प्रश्न प्रति पेपर।</div>
+    </div>
+  `;
+  document.getElementById('topicModal').classList.add('open');
+}
+
+function quizOnTopic(subj, topic) {
+  state.selectedSubjects = [subj];
+  showPage('quiz');
+  // pre-select the subject
+  setTimeout(() => {
+    document.querySelectorAll('#subjectChips .chip').forEach(c => {
+      c.classList.toggle('selected', c.dataset.subj === subj);
+    });
+  }, 100);
+}
+
+// ===================== QUIZ =====================
+let qCount = 10;
+
+function renderQuizSetup() {
+  const chips = document.getElementById('subjectChips');
+  if (!chips) return;
+  chips.innerHTML = Object.keys(SUBJECTS_DATA).map(s =>
+    `<div class="chip" data-subj="${s}" onclick="toggleSubjectChip(this,'${s}')">${s}</div>`
+  ).join('');
+  updateBookmarkQuizCard();
+}
+
+function toggleSubjectChip(el, subj) {
+  el.classList.toggle('selected');
+}
+
+function selectChip(el, groupId) {
+  document.querySelectorAll('#'+groupId+' .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function changeQCount(delta) {
+  qCount = Math.max(5, Math.min(50, qCount + delta));
+  document.getElementById('qCountDisplay').textContent = qCount;
+}
+
+function updateBookmarkQuizCard() {
+  const card = document.getElementById('bookmarkQuizCard');
+  const cnt = document.getElementById('bookmarkCount');
+  if (!card) return;
+  if (state.bookmarks.length > 0) {
+    card.style.display = 'block';
+    cnt.textContent = `${state.bookmarks.length} प्रश्न बुकमार्क किए गए हैं`;
+  } else {
+    card.style.display = 'none';
+  }
+}
+
+async function startQuiz() {
+  const selected = [...document.querySelectorAll('#subjectChips .chip.selected')].map(c => c.dataset.subj);
+  if (selected.length === 0) { showToast('⚠️ कम से कम एक विषय चुनें'); return; }
+  
+  // Gather topics
+  const topics = [];
+  selected.forEach(s => {
+    (SUBJECTS_DATA[s]||[]).forEach(t => topics.push({...t, subject:s}));
+  });
+  
+  if (topics.length === 0) { showToast('❌ कोई टॉपिक नहीं मिला'); return; }
+  
+  // Pick random topics for quiz
+  const shuffled = topics.sort(()=>Math.random()-0.5);
+  const picked = shuffled.slice(0, Math.min(qCount, shuffled.length));
+  
+  showLoading('AI से हिंदी में प्रश्न बना रहे हैं...<br><small>कृपया प्रतीक्षा करें (10-30 सेकंड)</small>');
+  
+  try {
+    const questions = await generateQuestions(picked, qCount);
+    hideLoading();
+    if (!questions || questions.length === 0) throw new Error('No questions');
+    state.quizQuestions = questions;
+    state.currentQ = 0;
+    state.quizAnswers = [];
+    state.quizCorrect = 0;
+    state.quizWrong = 0;
+    state.quizNewFlash = 0;
+    state.quizNewBookmark = 0;
+    showQuizActive();
+    renderQuestion();
+  } catch(e) {
+    hideLoading();
+    console.error(e);
+    showToast('❌ API error: ' + e.message);
+  }
+}
+
+async function generateQuestions(topics, count) {
+  const topicList = topics.slice(0, Math.min(count, topics.length)).map(t =>
+    `- विषय: ${t.subject}, माइक्रो टॉपिक: ${t.microTopic}`
+  ).join('\n');
+  
+  const prompt = `आप RPSC 1st Grade Teacher Paper-I परीक्षा के एक विशेषज्ञ हैं।
+नीचे दिए गए माइक्रो टॉपिक्स पर ${count} MCQ प्रश्न बनाएं।
+
+टॉपिक्स:
+${topicList}
+
+नियम:
+1. हर प्रश्न हिंदी में हो
+2. हर प्रश्न में 4 विकल्प हों (A, B, C, D)
+3. सही उत्तर का index दें (0=A, 1=B, 2=C, 3=D)
+4. हर प्रश्न का 2-3 वाक्यों में हिंदी explanation दें
+5. RPSC परीक्षा के वास्तविक pattern पर आधारित हों
+
+केवल JSON array return करें, कोई अन्य text नहीं:
+[
+  {
+    "question": "प्रश्न यहाँ",
+    "options": ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
+    "correct": 0,
+    "explanation": "explanation यहाँ",
+    "topic": "माइक्रो टॉपिक",
+    "subject": "विषय",
+    "difficulty": "मध्यम"
+  }
+]`;
+
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${state.apiKey}`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      contents: [{parts: [{text: prompt}]}],
+      generationConfig: {temperature: 0.7, maxOutputTokens: 4000}
+    })
+  });
+  
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error?.message || 'API Error');
+  }
+  
+  const data = await res.json();
+  let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  text = text.replace(/```json/g,'').replace(/```/g,'').trim();
+  return JSON.parse(text);
+}
+
+function showQuizActive() {
+  document.getElementById('quizSetup').style.display = 'none';
+  document.getElementById('quizActive').style.display = 'block';
+  document.getElementById('quizResult').style.display = 'none';
+}
+
+function renderQuestion() {
+  const q = state.quizQuestions[state.currentQ];
+  const total = state.quizQuestions.length;
+  
+  document.getElementById('quizCounter').textContent = `${state.currentQ+1}/${total}`;
+  document.getElementById('quizProgressFill').style.width = `${(state.currentQ/total)*100}%`;
+  document.getElementById('questionSubject').textContent = `📚 ${q.subject} › ${q.topic}`;
+  document.getElementById('questionText').textContent = q.question;
+  
+  const opts = document.getElementById('optionsList');
+  opts.innerHTML = q.options.map((o,i) => `
+    <button class="option-btn" onclick="selectAnswer(${i})">${['A','B','C','D'][i]}. ${o}</button>
+  `).join('');
+  
+  document.getElementById('explanationArea').innerHTML = '';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('quizActions').style.display = 'none';
+}
+
+function selectAnswer(idx) {
+  const q = state.quizQuestions[state.currentQ];
+  const isCorrect = idx === q.correct;
+  
+  // Disable all options
+  document.querySelectorAll('.option-btn').forEach((btn, i) => {
+    btn.onclick = null;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === idx && !isCorrect) btn.classList.add('wrong');
+  });
+  
+  // Show explanation
+  const expEl = document.getElementById('explanationArea');
+  expEl.innerHTML = `
+    <div class="explanation ${isCorrect?'':'wrong-exp'}">
+      <strong>${isCorrect ? '✅ सही!' : '❌ गलत!'}</strong><br>
+      ${isCorrect ? '' : `<strong>सही उत्तर: ${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}</strong><br>`}
+      ${q.explanation}
+    </div>
+  `;
+  
+  if (isCorrect) state.quizCorrect++;
+  else state.quizWrong++;
+  
+  state.quizAnswers.push({q, selected: idx, correct: isCorrect});
+  
+  // Auto-create flashcard for wrong answers
+  if (!isCorrect) {
+    const exists = state.flashcards.some(f => f.question === q.question);
+    if (!exists) {
+      state.flashcards.push({
+        question: q.question,
+        answer: `${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}\n\n${q.explanation}`,
+        subject: q.subject,
+        topic: q.topic,
+        hard: true,
+        id: Date.now() + Math.random()
+      });
+      state.quizNewFlash++;
+      showToast('📝 फ्लैशकार्ड बन गया!');
+    }
+  }
+  
+  document.getElementById('nextBtn').style.display = 'block';
+  document.getElementById('quizActions').style.display = 'flex';
+  
+  saveState();
+}
+
+function nextQuestion() {
+  state.currentQ++;
+  if (state.currentQ >= state.quizQuestions.length) {
+    showQuizResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showQuizResult() {
+  document.getElementById('quizActive').style.display = 'none';
+  document.getElementById('quizResult').style.display = 'block';
+  
+  const total = state.quizQuestions.length;
+  const pct = Math.round(state.quizCorrect/total*100);
+  
+  let emoji = '😔', msg = 'और मेहनत करें!';
+  if (pct >= 90) { emoji = '🏆'; msg = 'शानदार! आप तैयार हैं!'; }
+  else if (pct >= 70) { emoji = '🎉'; msg = 'बहुत अच्छा! ऐसे ही रखें!'; }
+  else if (pct >= 50) { emoji = '👍'; msg = 'अच्छे प्रयास! थोड़ा और!'; }
+  
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultScore').textContent = state.quizCorrect;
+  document.getElementById('resultTotal').textContent = `/${total} सही (${pct}%)`;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resCorrect').textContent = state.quizCorrect;
+  document.getElementById('resWrong').textContent = state.quizWrong;
+  document.getElementById('resBookmarked').textContent = state.quizNewBookmark;
+  document.getElementById('resFlash').textContent = state.quizNewFlash;
+  
+  // Update stats
+  state.stats.totalQuizzes++;
+  state.stats.totalCorrect += state.quizCorrect;
+  state.stats.totalAttempts += total;
+  
+  // Update progress per subject
+  state.quizAnswers.forEach(a => {
+    const key = a.q.topic;
+    if (!state.progress[key]) state.progress[key] = 0;
+    if (a.correct) state.progress[key] = Math.min(100, (state.progress[key]||0) + 10);
+  });
+  
+  saveState();
+  renderHome();
+}
+
+function exitQuiz() {
+  if (confirm('क्या आप वाकई क्विज़ छोड़ना चाहते हैं?')) resetQuiz();
+}
+
+function resetQuiz() {
+  document.getElementById('quizSetup').style.display = 'block';
+  document.getElementById('quizActive').style.display = 'none';
+  document.getElementById('quizResult').style.display = 'none';
+  updateBookmarkQuizCard();
+}
+
+function bookmarkCurrent() {
+  const q = state.quizQuestions[state.currentQ];
+  const exists = state.bookmarks.some(b => b.question === q.question);
+  if (!exists) {
+    state.bookmarks.push(q);
+    state.quizNewBookmark++;
+    showToast('🔖 बुकमार्क हो गया!');
+    document.getElementById('bookmarkCurrentBtn').textContent = '🔖 बुकमार्क किया';
+  }
+  saveState();
+}
+
+function addToFlashcard() {
+  const q = state.quizQuestions[state.currentQ];
+  const exists = state.flashcards.some(f => f.question === q.question);
+  if (!exists) {
+    state.flashcards.push({
+      question: q.question,
+      answer: `${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}\n\n${q.explanation}`,
+      subject: q.subject,
+      topic: q.topic,
+      hard: false,
+      id: Date.now()
+    });
+    state.quizNewFlash++;
+    showToast('📝 फ्लैशकार्ड बन गया!');
+    document.getElementById('addFlashBtn').textContent = '📝 जोड़ा गया';
+  }
+  saveState();
+}
+
+function quickQuiz() {
+  // Select top 3 subjects and start
+  const topSubjects = Object.entries(SUBJECTS_DATA)
+    .sort((a,b) => b[1].reduce((s,t)=>s+t.average,0) - a[1].reduce((s,t)=>s+t.average,0))
+    .slice(0,3).map(e=>e[0]);
+  showPage('quiz');
+  setTimeout(() => {
+    document.querySelectorAll('#subjectChips .chip').forEach(c => {
+      c.classList.toggle('selected', topSubjects.includes(c.dataset.subj));
+    });
+  }, 100);
+}
+
+async function startBookmarkQuiz() {
+  if (state.bookmarks.length === 0) { showToast('कोई बुकमार्क नहीं!'); return; }
+  showLoading('बुकमार्क प्रश्न लोड हो रहे हैं...');
+  try {
+    const questions = await generateQuestions(
+      state.bookmarks.map(b => ({microTopic: b.topic || b.subject, subject: b.subject || 'सामान्य'})),
+      state.bookmarks.length
+    );
+    hideLoading();
+    state.quizQuestions = questions;
+    state.currentQ = 0;
+    state.quizAnswers = [];
+    state.quizCorrect = 0;
+    state.quizWrong = 0;
+    state.quizNewFlash = 0;
+    state.quizNewBookmark = 0;
+    showQuizActive();
+    renderQuestion();
+  } catch(e) {
+    hideLoading();
+    showToast('❌ Error: ' + e.message);
+  }
+}
+
+// ===================== FLASHCARDS =====================
+function renderFlashcards() {
+  const list = document.getElementById('flashList');
+  const empty = document.getElementById('flashEmpty');
+  const label = document.getElementById('flashTotalLabel');
+  if (!list) return;
+  
+  if (label) label.textContent = `कुल: ${state.flashcards.length} कार्ड`;
+  
+  if (state.flashcards.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'flex';
+    return;
+  }
+  empty.style.display = 'none';
+  
+  // Group by subject
+  const bySubj = {};
+  state.flashcards.forEach(f => {
+    const s = f.subject || 'अन्य';
+    if (!bySubj[s]) bySubj[s] = [];
+    bySubj[s].push(f);
+  });
+  
+  list.innerHTML = Object.entries(bySubj).map(([s, cards]) => `
+    <div class="section-header">${s} (${cards.length})</div>
+    ${cards.map(f => `
+      <div class="card" style="margin:8px 16px;padding:12px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${f.question}</div>
+        <div style="font-size:12px;color:var(--text-muted);">${f.answer?.slice(0,80)}...</div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          ${f.hard ? '<span style="font-size:11px;background:#fde8e8;color:#c0392b;padding:2px 8px;border-radius:10px;">😓 कठिन</span>' : ''}
+          <button onclick="deleteFlash('${f.id}')" style="background:none;border:none;font-size:11px;color:var(--text-muted);cursor:pointer;margin-left:auto;">🗑️ हटाएं</button>
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function startFlashSession() {
+  if (state.flashcards.length === 0) { showToast('कोई फ्लैशकार्ड नहीं!'); return; }
+  state.flashIdx = 0;
+  state.flashFlipped = false;
+  document.getElementById('flashSession').style.display = 'block';
+  document.getElementById('flashList').style.display = 'none';
+  document.getElementById('flashEmpty').style.display = 'none';
+  renderFlashCard();
+}
+
+function renderFlashCard() {
+  const f = state.flashcards[state.flashIdx];
+  const total = state.flashcards.length;
+  document.getElementById('flashCounter').textContent = `${state.flashIdx+1}/${total}`;
+  document.getElementById('flashProgressFill').style.width = `${((state.flashIdx+1)/total)*100}%`;
+  document.getElementById('flashFront').textContent = f.question;
+  document.getElementById('flashBack').textContent = f.answer;
+  document.getElementById('flashcardInner').classList.remove('flipped');
+  state.flashFlipped = false;
+}
+
+function flipCard() {
+  state.flashFlipped = !state.flashFlipped;
+  document.getElementById('flashcardInner').classList.toggle('flipped', state.flashFlipped);
+}
+
+function flashResult(result) {
+  const f = state.flashcards[state.flashIdx];
+  if (result === 'hard') {
+    f.hard = true;
+    showToast('😓 फिर आएगा!');
+  } else {
+    f.hard = false;
+    showToast('✅ बढ़िया!');
+  }
+  state.flashIdx++;
+  if (state.flashIdx >= state.flashcards.length) {
+    endFlashSession();
+    showToast('🎉 सभी फ्लैशकार्ड पूरे हुए!');
+  } else {
+    renderFlashCard();
+  }
+  saveState();
+}
+
+function deleteCurrentFlash() {
+  const f = state.flashcards[state.flashIdx];
+  deleteFlash(f.id);
+  if (state.flashIdx >= state.flashcards.length) state.flashIdx = Math.max(0, state.flashcards.length-1);
+  if (state.flashcards.length === 0) { endFlashSession(); return; }
+  renderFlashCard();
+}
+
+function deleteFlash(id) {
+  state.flashcards = state.flashcards.filter(f => String(f.id) !== String(id));
+  saveState();
+  renderFlashcards();
+}
+
+function endFlashSession() {
+  document.getElementById('flashSession').style.display = 'none';
+  document.getElementById('flashList').style.display = 'block';
+  renderFlashcards();
+}
+
+// ===================== PROGRESS =====================
+function renderProgress() {
+  document.getElementById('totalAttempts').textContent = state.stats.totalAttempts;
+  document.getElementById('totalCorrect').textContent = state.stats.totalCorrect;
+  const acc = state.stats.totalAttempts > 0 ? Math.round(state.stats.totalCorrect/state.stats.totalAttempts*100) : 0;
+  document.getElementById('overallAccuracy').textContent = acc + '%';
+  
+  const el = document.getElementById('progressBySubject');
+  if (!el) return;
+  el.innerHTML = Object.entries(SUBJECTS_DATA).map(([subj, topics]) => {
+    const topicProgress = topics.map(t => state.progress[t.microTopic] || 0);
+    const avg = topicProgress.length > 0 ? Math.round(topicProgress.reduce((a,b)=>a+b,0)/topicProgress.length) : 0;
+    return `
+      <div class="progress-subject">
+        <div class="progress-header">
+          <div class="progress-name">${subj}</div>
+          <div class="progress-pct">${avg}%</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${avg}%"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${topics.length} माइक्रो टॉपिक</div>
+      </div>
+    `;
+  }).join('');
+  
+  renderNotesList();
+}
+
+// ===================== NOTES =====================
+function loadQuickNote() {
+  const n = localStorage.getItem('rpsc_quicknote') || '';
+  const el = document.getElementById('quickNote');
+  if (el) el.value = n;
+}
+
+function saveQuickNote() {
+  const val = document.getElementById('quickNote').value;
+  localStorage.setItem('rpsc_quicknote', val);
+}
+
+function showNotes() {
+  const modal = document.getElementById('notesModal');
+  document.getElementById('notesModalContent').innerHTML = state.notes.length === 0 ?
+    '<p style="color:var(--text-muted);font-size:13px;">कोई नोट नहीं। नीचे नया नोट जोड़ें।</p>' :
+    state.notes.map((n,i) => `
+      <div style="padding:10px;background:var(--bg);border-radius:10px;margin-bottom:10px;">
+        <div style="font-size:13px;margin-bottom:4px;">${n.text}</div>
+        ${n.tag ? `<span style="font-size:11px;background:var(--primary);color:#fff;padding:2px 8px;border-radius:10px;">${n.tag}</span>` : ''}
+        <button onclick="deleteNote(${i})" style="float:right;background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;">🗑️</button>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${n.date}</div>
+      </div>
+    `).join('');
+  modal.classList.add('open');
+}
+
+function saveNote() {
+  const text = document.getElementById('newNoteText').value.trim();
+  if (!text) { showToast('नोट खाली है!'); return; }
+  state.notes.push({
+    text,
+    tag: document.getElementById('newNoteTag').value.trim(),
+    date: new Date().toLocaleDateString('hi-IN')
+  });
+  document.getElementById('newNoteText').value = '';
+  document.getElementById('newNoteTag').value = '';
+  saveState();
+  showNotes();
+  showToast('✅ नोट सहेजा!');
+}
+
+function deleteNote(idx) {
+  state.notes.splice(idx, 1);
+  saveState();
+  showNotes();
+}
+
+function addNote() { showNotes(); }
+
+function renderNotesList() {
+  const el = document.getElementById('notesList');
+  if (!el) return;
+  el.innerHTML = state.notes.length === 0 ?
+    '<p style="font-size:13px;color:var(--text-muted);">कोई नोट नहीं।</p>' :
+    state.notes.map((n,i) => `
+      <div style="padding:10px;border-bottom:1px solid var(--border);">
+        <div style="font-size:13px;">${n.text}</div>
+        ${n.tag ? `<span style="font-size:11px;color:var(--primary);">#${n.tag}</span>` : ''}
+        <div style="font-size:11px;color:var(--text-muted);">${n.date}</div>
+      </div>
+    `).join('');
+}
+
+// ===================== MODALS =====================
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function showLoading(msg) {
+  document.getElementById('loadingMsg').innerHTML = msg;
+  document.getElementById('loadingModal').classList.add('open');
+}
+
+function hideLoading() {
+  document.getElementById('loadingModal').classList.remove('open');
+}
+
+// ===================== TOAST =====================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay && overlay.id !== 'loadingModal') overlay.classList.remove('open');
+  });
+});
+
+// ===================== SERVICE WORKER =====================
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// PWA Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install banner after 30 seconds
+  setTimeout(() => {
+    if (deferredPrompt) showInstallBanner();
+  }, 30000);
+});
+
+function showInstallBanner() {
+  const banner = document.createElement('div');
+  banner.style.cssText = 'position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 16px;border-radius:20px;font-size:13px;z-index:400;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
+  banner.innerHTML = '📲 होम स्क्रीन पर जोड़ें <button style="background:var(--primary);border:none;color:#fff;padding:5px 12px;border-radius:12px;cursor:pointer;font-size:12px;" onclick="installPWA()">जोड़ें</button> <button style="background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;" onclick="this.parentNode.remove()">✕</button>';
+  document.body.appendChild(banner);
+  setTimeout(() => banner.remove(), 15000);
+}
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+  }
+}
+
+// ===================== START =====================
+init();
+</script>
+</body>
+</html>
