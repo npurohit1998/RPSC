@@ -241,7 +241,6 @@
 </head>
 <body>
 
-<!-- SETUP SCREEN -->
 <div class="setup-screen" id="setupScreen">
   <div class="setup-logo">📚</div>
   <div class="setup-title">RPSC परीक्षा तैयारी</div>
@@ -254,10 +253,8 @@
   <button class="btn btn-primary mt-12" onclick="saveSetup()">शुरू करें →</button>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- HEADER -->
 <div class="header" id="mainHeader" style="display:none">
   <div class="header-top">
     <div>
@@ -268,7 +265,6 @@
   </div>
 </div>
 
-<!-- MAIN NAV -->
 <nav class="nav" id="mainNav" style="display:none">
   <button class="nav-btn active" onclick="showPage('home')" id="nav-home">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -292,9 +288,7 @@
   </button>
 </nav>
 
-<!-- PAGE: HOME -->
 <div class="page active" id="page-home">
-  <!-- Countdown -->
   <div class="countdown-card" id="countdownCard">
     <div class="exam-label">🎯 परीक्षा में बचा समय</div>
     <div class="exam-date">16 मई 2026, शुक्रवार</div>
@@ -306,14 +300,12 @@
     </div>
   </div>
   
-  <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card"><div class="stat-num" id="statQuizzes">0</div><div class="stat-label">क्विज़ दिए</div></div>
     <div class="stat-card"><div class="stat-num" id="statAccuracy">0%</div><div class="stat-label">शुद्धता</div></div>
     <div class="stat-card"><div class="stat-num" id="statFlash">0</div><div class="stat-label">फ्लैशकार्ड</div></div>
   </div>
   
-  <!-- Daily goal -->
   <div class="card">
     <div class="card-title">📅 आज का लक्ष्य</div>
     <div id="dailyGoalContent">
@@ -322,7 +314,6 @@
     </div>
   </div>
   
-  <!-- Quick actions -->
   <div class="card">
     <div class="card-title">⚡ त्वरित क्रिया</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -333,11 +324,9 @@
     </div>
   </div>
   
-  <!-- Top topics -->
   <div class="section-header">🔥 सबसे महत्वपूर्ण टॉपिक</div>
   <div id="topTopicsHome"></div>
   
-  <!-- Notes shortcut -->
   <div class="card" id="notesHome">
     <div class="card-title" style="justify-content:space-between;">
       ✏️ त्वरित नोट्स
@@ -347,7 +336,6 @@
   </div>
 </div>
 
-<!-- PAGE: TOPICS -->
 <div class="page" id="page-topics">
   <div class="card" style="margin-top:16px;">
     <input type="text" class="input" id="topicSearch" placeholder="🔍 टॉपिक खोजें..." oninput="filterTopics()">
@@ -361,9 +349,7 @@
   <div id="topicsList"></div>
 </div>
 
-<!-- PAGE: QUIZ -->
 <div class="page" id="page-quiz">
-  <!-- Quiz setup -->
   <div id="quizSetup">
     <div class="card" style="margin-top:16px;">
       <div class="card-title">🎯 क्विज़ सेटअप</div>
@@ -389,7 +375,6 @@
       <button class="btn btn-primary mt-12" onclick="startQuiz()" id="startQuizBtn">🚀 क्विज़ शुरू करें</button>
     </div>
     
-    <!-- Bookmarked quiz -->
     <div class="card" id="bookmarkQuizCard" style="display:none;">
       <div class="card-title">🔖 बुकमार्क की गई प्रश्नों की क्विज़</div>
       <p style="font-size:13px;color:var(--text-muted);" id="bookmarkCount">0 प्रश्न बुकमार्क किए गए हैं</p>
@@ -397,7 +382,6 @@
     </div>
   </div>
   
-  <!-- Quiz active -->
   <div id="quizActive" style="display:none;">
     <div class="quiz-header">
       <button onclick="exitQuiz()" style="background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
@@ -421,7 +405,6 @@
     </div>
   </div>
   
-  <!-- Quiz result -->
   <div id="quizResult" style="display:none;">
     <div class="card result-card">
       <div style="font-size:36px;margin-bottom:8px;" id="resultEmoji">🎉</div>
@@ -439,7 +422,6 @@
   </div>
 </div>
 
-<!-- PAGE: FLASHCARDS -->
 <div class="page" id="page-flashcards">
   <div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;">
     <div>
@@ -449,7 +431,6 @@
     <button class="btn btn-sm btn-primary" onclick="startFlashSession()">अभ्यास शुरू करें</button>
   </div>
   
-  <!-- Flash session -->
   <div id="flashSession" style="display:none;">
     <div class="quiz-header">
       <button onclick="endFlashSession()" style="background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
@@ -472,7 +453,6 @@
     <button onclick="deleteCurrentFlash()" style="display:block;margin:10px auto;background:none;border:none;font-size:12px;color:var(--text-muted);cursor:pointer;">🗑️ इस कार्ड को हटाएं</button>
   </div>
   
-  <!-- Flash list -->
   <div id="flashList" style="margin-top:12px;"></div>
   <div id="flashEmpty" class="loading" style="display:none;">
     <div style="font-size:48px;">📭</div>
@@ -481,7 +461,6 @@
   </div>
 </div>
 
-<!-- PAGE: PROGRESS -->
 <div class="page" id="page-progress">
   <div class="card" style="margin-top:16px;">
     <div class="card-title">📊 समग्र प्रगति</div>
@@ -491,7 +470,6 @@
       <div class="stat-card" style="margin:0;"><div class="stat-num" id="overallAccuracy">0%</div><div class="stat-label">शुद्धता</div></div>
     </div>
     
-    <!-- Study time -->
     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border);">
       <span style="font-size:13px;">📅 आज पढ़ाई का समय</span>
       <span style="font-size:14px;font-weight:700;color:var(--primary);" id="studyTime">0 मिनट</span>
@@ -501,7 +479,6 @@
   <div class="section-header">विषयवार प्रगति</div>
   <div id="progressBySubject"></div>
   
-  <!-- Notes section in progress -->
   <div class="section-header">✏️ मेरे नोट्स</div>
   <div class="card">
     <div id="notesList"></div>
@@ -509,7 +486,6 @@
   </div>
 </div>
 
-<!-- NOTES MODAL -->
 <div class="modal-overlay" id="notesModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('notesModal')">✕</button>
@@ -524,7 +500,6 @@
   </div>
 </div>
 
-<!-- TOPIC DETAIL MODAL -->
 <div class="modal-overlay" id="topicModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('topicModal')">✕</button>
@@ -533,7 +508,6 @@
   </div>
 </div>
 
-<!-- LOADING MODAL -->
 <div class="modal-overlay" id="loadingModal">
   <div class="modal" style="border-radius:var(--radius);text-align:center;">
     <div class="spinner" style="margin:0 auto 12px;"></div>
@@ -544,7 +518,7 @@
 <script>
 // ===================== DATA =====================
 const EXAM_DATE = new Date('2026-05-16T10:00:00');
-const SUBJECTS_DATA = {"भारतीय इतिहास":[{"microTopic":"1857 का स्वतन्त्रता संग्राम","average":0.267,"importance":"कम","stars":2},{"microTopic":"राष्ट्रवाद का विकास (1858 - 1919)","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"सामूहिक राष्ट्रवाद का उदय (1919 - 1942)","average":1.267,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"क्रन्तिकारी गतिविधियाँ","average":0.333,"importance":"कम","stars":2},{"microTopic":"स्वतंत्रता व विभाजन की तरफ","average":0.133,"importance":"कम","stars":2},{"microTopic":"19 वीं व 20 वीं सदी में सामाजिक व धार्मिक पुनर्जागरण","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"प्रमुख नेतृत्वकर्ता - सावरकर, बंकिम चन्द्र, लाल-बाल-पाल, भगत सिंह, सुभाषचंद्र बोस","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"महात्मा गाँधी, नेहरु, पटेल, मौलाना आज़ाद व आंबेडकर","average":1.067,"importance":"मध्यम-उच्च","stars":4}],"राजस्थान की प्राचीन सभ्यताएँ":[{"microTopic":"कालीबंगा","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"आहड़","average":0.267,"importance":"कम","stars":2},{"microTopic":"गणेश्वर","average":0.133,"importance":"कम","stars":2},{"microTopic":"बैराठ","average":0.133,"importance":"कम","stars":2}],"राजस्थान का मध्यकालीन इतिहास":[{"microTopic":"गुर्जर - प्रतिहार","average":0.267,"importance":"कम","stars":2},{"microTopic":"अजमेर के चौहान","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"मेवाड़, रणथम्भौर व जालौर का दिल्ली से सम्बन्ध","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"राणा सांगा","average":0.267,"importance":"कम","stars":2},{"microTopic":"महाराणा प्रताप","average":0.267,"importance":"कम","stars":2},{"microTopic":"मेवाड़ के राजसिंह","average":0.133,"importance":"कम","stars":2}],"राजस्थान में स्वतंत्रता संग्राम":[{"microTopic":"1857 की क्रांति","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"राजनैतिक जागरण","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"प्रजामंडल आन्दोलन","average":0.333,"importance":"कम","stars":2},{"microTopic":"किसान व जनजातीय आन्दोलन","average":0.6,"importance":"मध्यम","stars":3}],"राजस्थान का एकीकरण":[{"microTopic":"राजस्थान का एकीकरण","average":0.6,"importance":"मध्यम","stars":3}],"समाज व धर्म (राजस्थान)":[{"microTopic":"लोक देवी व देवता","average":0.333,"importance":"कम","stars":2},{"microTopic":"राजस्थान के संत","average":0.133,"importance":"कम","stars":2},{"microTopic":"स्थापत्य - मंदिर, किले व महल","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"चित्रकला - विभिन्न शैलियाँ","average":0.333,"importance":"कम","stars":2},{"microTopic":"लोक नृत्य व संगीत","average":0.333,"importance":"कम","stars":2},{"microTopic":"भाषा व साहित्य","average":0.533,"importance":"मध्यम","stars":3}],"मानसिक अभियोग्यता":[{"microTopic":"श्रेणी पूर्तिकरण","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"कूट वाचन","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"रक्त सम्बन्ध","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"तार्किक वेन आरेख","average":0.133,"importance":"कम","stars":2}],"सांख्यिकी":[{"microTopic":"आंकड़ों का ग्राफीय निरूपण","average":0.333,"importance":"कम","stars":2},{"microTopic":"केन्द्रीय प्रवृत्ति के माप - माध्य, माध्यक, बहुलक","average":1.467,"importance":"मध्यम-उच्च","stars":4}],"क्षेत्रमिति":[{"microTopic":"क्षेत्रमिति","average":2.6,"importance":"उच्च","stars":5}],"सामान्य हिंदी":[{"microTopic":"संधि व संधि विच्छेद","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"उपसर्ग व प्रत्यय","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"अनेकार्थक व विलोम शब्द","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"शब्द शुद्धि व वाक्य शुद्धि","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"अंग्रेजी के पारिभाषिक शब्द","average":0.6,"importance":"मध्यम","stars":3}],"General English":[{"microTopic":"Tenses / sequence of tenses","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"Active & Passive Voice","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"Direct & Indirect Speech","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"Synonyms & Antonyms","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"Preposition","average":0.533,"importance":"मध्यम","stars":3}],"समसामयिकी":[{"microTopic":"Current Affairs","average":10.0,"importance":"उच्च","stars":5}],"सामान्य विज्ञान":[{"microTopic":"अणु परमाणु","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"रासायनिक अभिक्रिया व समीकरण","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"बल व गति के नियम","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"कार्य व उर्जा","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"नियन्त्रण व समन्वय","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"आनुवंशिकता व विकास","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"प्राकृतिक संसाधनों का प्रबंधन","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"विज्ञान व तकनीक में नवीन विकास","average":1.0,"importance":"मध्यम-उच्च","stars":4}],"भारतीय राजव्यवस्था":[{"microTopic":"भारतीय संविधान की विशेषताएँ","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"राष्ट्रपति","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"संसद","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"सर्वोच्च न्यायलय","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"मंत्री परिषद","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"चुनाव आयोग","average":0.267,"importance":"कम","stars":2}],"राजस्थान का भूगोल":[{"microTopic":"भौतिक विशेषताएँ","average":0.933,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"जनसांख्यिकीय विशेषताएँ","average":1.333,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"जलवायु","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"खनिज सम्पदा","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"कृषि","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"पशुधन","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"जल निकास","average":0.6,"importance":"मध्यम","stars":3}],"शैक्षिक मनोविज्ञान":[{"microTopic":"किशोर अधिगमकर्ता का विकास","average":2.6,"importance":"उच्च","stars":5},{"microTopic":"अधिगम के दृष्टिकोण","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"मानसिक स्वास्थ्य","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"भावनात्मक बुद्धिमत्ता","average":0.6,"importance":"मध्यम","stars":3}],"शैक्षिक प्रबन्धन":[{"microTopic":"अवधारणा, कार्य व सिद्धांत","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"शिक्षा में सामाजिक संगठन व नेतृत्व","average":0.267,"importance":"कम","stars":2}],"राजस्थान में शैक्षिक परिदृश्य":[{"microTopic":"SCERT","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"DIET","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"गुणवत्तापूर्ण शिक्षा के लिए राज्य की पहल","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"NEP 2020 के निहितार्थ","average":0.2,"importance":"कम","stars":2}],"NEP & RTE":[{"microTopic":"बालकों का नि:शुल्क व अनिवार्य शिक्षा का अधिकार अधिनियम 2009","average":1.667,"importance":"उच्च","stars":5}]};
+const SUBJECTS_DATA = {"भारतीय इतिहास":[{"microTopic":"1857 का स्वतन्त्रता संग्राम","average":0.267,"importance":"कम","stars":2},{"microTopic":"राष्ट्रवाद का विकास (1858 - 1919)","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"सामूहिक राष्ट्रवाद का उदय (1919 - 1942)","average":1.267,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"क्रन्तिकारी गतिविधियाँ","average":0.333,"importance":"कम","stars":2},{"microTopic":"स्वतंत्रता व विभाजन की तरफ","average":0.133,"importance":"कम","stars":2},{"microTopic":"19 वीं व 20 वीं सदी में सामाजिक व धार्मिक पुनर्जागरण","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"प्रमुख नेतृत्वकर्ता - सावरकर, बंकिम चन्द्र, लाल-बाल-पाल, भगत सिंह, सुभाषचंद्र बोस","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"महात्मा गाँधी, नेहरु, पटेल, मौलाना आज़ाद व आंबेडकर","average":1.067,"importance":"मध्यम-उच्च","stars":4}],"राजस्थान की प्राचीन सभ्यताएँ":[{"microTopic":"कालीबंगा","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"आहड़","average":0.267,"importance":"कम","stars":2},{"microTopic":"गणेश्वर","average":0.133,"importance":"कम","stars":2},{"microTopic":"बैराठ","average":0.133,"importance":"कम","stars":2}],"राजस्थान का मध्यकालीन इतिहास":[{"microTopic":"गुर्जर - प्रतिहार","average":0.267,"importance":"कम","stars":2},{"microTopic":"अजमेर के चौहान","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"मेवाड़, रणथम्भौर व जालौर का दिल्ली से सम्बन्ध","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"राणा सांगा","average":0.267,"importance":"कम","stars":2},{"microTopic":"महाराणा प्रताप","average":0.267,"importance":"कम","stars":2},{"microTopic":"मेवाड़ के राजसिंह","average":0.133,"importance":"कम","stars":2}],"राजस्थान में स्वतंत्रता संग्राम":[{"microTopic":"1857 की क्रांति","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"राजनैतिक जागरण","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"प्रजामंडल आन्दोलन","average":0.333,"importance":"कम","stars":2},{"microTopic":"किसान व जनजातीय आन्दोलन","average":0.6,"importance":"मध्यम","stars":3}],"राजस्थान का एकीकरण":[{"microTopic":"राजस्थान का एकीकरण","average":0.6,"importance":"मध्यम","stars":3}],"समाज व धर्म (राजस्थान)":[{"microTopic":"लोक देवी व देवता","average":0.333,"importance":"कम","stars":2},{"microTopic":"राजस्थान के संत","average":0.133,"importance":"कम","stars":2},{"microTopic":"स्थापत्य - मंदिर, किले व महल","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"चित्रकला - विभिन्न शैलियाँ","average":0.333,"importance":"कम","stars":2},{"microTopic":"लोक नृत्य व संगीत","average":0.333,"importance":"कम","stars":2},{"microTopic":"भाषा व साहित्य","average":0.533,"importance":"मध्यम","stars":3}],"मानसिक अभियोग्यता":[{"microTopic":"श्रेणी पूर्तिकरण","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"कूट वाचन","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"रक्त सम्बन्ध","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"तार्किक वेन आरेख","average":0.133,"importance":"कम","stars":2}],"सांख्यिकी":[{"microTopic":"आंकड़ों का ग्राफीय निरूपण","average":0.333,"importance":"कम","stars":2},{"microTopic":"केन्द्रीय प्रवृत्ति के माप - माध्य, माध्यक, बहुलक","average":1.467,"importance":"मध्यम-उच्च","stars":4}],"क्षेत्रमिति":[{"microTopic":"क्षेत्रमिति","average":2.6,"importance":"उच्च","stars":5}],"सामान्य हिंदी":[{"microTopic":"संधि व संधि विच्छेद","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"उपसर्ग व प्रत्यय","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"अनेकार्थक व विलोम शब्द","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"शब्द शुद्धि व वाक्य शुद्धि","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"अंग्रेजी के पारिभाषिक शब्द","average":0.6,"importance":"मध्यम","stars":3}],"General English":[{"microTopic":"Tenses / sequence of tenses","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"Active & Passive Voice","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"Direct & Indirect Speech","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"Synonyms & Antonyms","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"Preposition","average":0.533,"importance":"मध्यम","stars":3}],"समसामयिकी":[{"microTopic":"Current Affairs","average":10.0,"importance":"उच्च","stars":5}],"सामान्य विज्ञान":[{"microTopic":"अणु परमाणु","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"रासायनिक अभिक्रिया व समीकरण","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"बल व गति के नियम","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"कार्य व उर्जा","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"नियन्त्रण व समन्वय","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"आनुवंशिकता व विकास","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"प्राकृतिक संसाधनों का प्रबंधन","average":0.667,"importance":"मध्यम","stars":3},{"microTopic":"विज्ञान व तकनीक में नवीन विकास","average":1.0,"importance":"मध्यम-उच्च","stars":4}],"भारतीय राजव्यवस्था":[{"microTopic":"भारतीय संविधान की विशेषताएँ","average":0.4,"importance":"मध्यम","stars":3},{"microTopic":"राष्ट्रपति","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"संसद","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"सर्वोच्च न्यायलय","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"मंत्री परिषद","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"चुनाव आयोग","average":0.267,"importance":"कम","stars":2}],"राजस्थान का भूगोल":[{"microTopic":"भौतिक विशेषताएँ","average":0.933,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"जनसांख्यिकीय विशेषताएँ","average":1.333,"importance":"मध्यम-उच्च","stars":4},{"microTopic":" जलवायु","average":0.867,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"खनिज सम्पदा","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"कृषि","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"पशुधन","average":0.533,"importance":"मध्यम","stars":3},{"microTopic":"जल निकास","average":0.6,"importance":"मध्यम","stars":3}],"शैक्षिक मनोविज्ञान":[{"microTopic":"किशोर अधिगमकर्ता का विकास","average":2.6,"importance":"उच्च","stars":5},{"microTopic":"अधिगम के दृष्टिकोण","average":1.0,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"मानसिक स्वास्थ्य","average":0.8,"importance":"मध्यम-उच्च","stars":4},{"microTopic":"भावनात्मक बुद्धिमत्ता","average":0.6,"importance":"मध्यम","stars":3}],"शैक्षिक प्रबन्धन":[{"microTopic":"अवधारणा, कार्य व सिद्धांत","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"शिक्षा में सामाजिक संगठन व नेतृत्व","average":0.267,"importance":"कम","stars":2}],"राजस्थान में शैक्षिक परिदृश्य":[{"microTopic":"SCERT","average":0.733,"importance":"मध्यम","stars":3},{"microTopic":"DIET","average":0.467,"importance":"मध्यम","stars":3},{"microTopic":"गुणवत्तापूर्ण शिक्षा के लिए राज्य की पहल","average":0.6,"importance":"मध्यम","stars":3},{"microTopic":"NEP 2020 के निहितार्थ","average":0.2,"importance":"कम","stars":2}],"NEP & RTE":[{"microTopic":"बालकों का नि:शुल्क व अनिवार्य शिक्षा का अधिकार अधिनियम 2009","average":1.667,"importance":"उच्च","stars":5}]};
 
 // ===================== STATE =====================
 let state = {
@@ -822,7 +796,8 @@ function selectChip(el, groupId) {
 }
 
 function changeQCount(delta) {
-  qCount = Math.max(5, Math.min(50, qCount + delta));
+  // Max questions limited to 15 to save API tokens and avoid Free Tier limit issues
+  qCount = Math.max(5, Math.min(15, qCount + delta));
   document.getElementById('qCountDisplay').textContent = qCount;
 }
 
@@ -854,12 +829,12 @@ async function startQuiz() {
   const shuffled = topics.sort(()=>Math.random()-0.5);
   const picked = shuffled.slice(0, Math.min(qCount, shuffled.length));
   
-  showLoading('AI से हिंदी में प्रश्न बना रहे हैं...<br><small>कृपया प्रतीक्षा करें (10-30 सेकंड)</small>');
+  showLoading('AI से हिंदी में प्रश्न बना रहे हैं...<br><small>कृपया प्रतीक्षा करें (5-15 सेकंड)</small>');
   
   try {
     const questions = await generateQuestions(picked, qCount);
     hideLoading();
-    if (!questions || questions.length === 0) throw new Error('No questions');
+    if (!questions || questions.length === 0) throw new Error('No questions generated');
     state.quizQuestions = questions;
     state.currentQ = 0;
     state.quizAnswers = [];
@@ -872,47 +847,32 @@ async function startQuiz() {
   } catch(e) {
     hideLoading();
     console.error(e);
-    showToast('❌ API error: ' + e.message);
+    // User-friendly error message if API fails
+    showToast('❌ API व्यस्त है या लिमिट खत्म। कृपया 1 मिनट बाद कोशिश करें।');
   }
 }
 
 async function generateQuestions(topics, count) {
   const topicList = topics.slice(0, Math.min(count, topics.length)).map(t =>
     `- विषय: ${t.subject}, माइक्रो टॉपिक: ${t.microTopic}`
-  ).join('\n');
+  ).join('\\n');
   
-  const prompt = `आप RPSC 1st Grade Teacher Paper-I परीक्षा के एक विशेषज्ञ हैं।
-नीचे दिए गए माइक्रो टॉपिक्स पर ${count} MCQ प्रश्न बनाएं।
-
-टॉपिक्स:
+  const prompt = `RPSC 1st Grade Teacher Paper-I परीक्षा के लिए इन टॉपिक्स पर ${count} MCQ प्रश्न बनाएँ:
 ${topicList}
+नियम: 1. हिंदी में। 2. 4 विकल्प। 3. सही उत्तर का index (0-3)। 4. 2 वाक्य का explanation।
+Format: [{"question":"...","options":["A","B","C","D"],"correct":0,"explanation":"...","topic":"...","subject":"...","difficulty":"मध्यम"}]`;
 
-नियम:
-1. हर प्रश्न हिंदी में हो
-2. हर प्रश्न में 4 विकल्प हों (A, B, C, D)
-3. सही उत्तर का index दें (0=A, 1=B, 2=C, 3=D)
-4. हर प्रश्न का 2-3 वाक्यों में हिंदी explanation दें
-5. RPSC परीक्षा के वास्तविक pattern पर आधारित हों
-
-केवल JSON array return करें, कोई अन्य text नहीं:
-[
-  {
-    "question": "प्रश्न यहाँ",
-    "options": ["विकल्प A", "विकल्प B", "विकल्प C", "विकल्प D"],
-    "correct": 0,
-    "explanation": "explanation यहाँ",
-    "topic": "माइक्रो टॉपिक",
-    "subject": "विषय",
-    "difficulty": "मध्यम"
-  }
-]`;
-
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${state.apiKey}`, {
+  // Updated to use gemini-3.0-flash and enabled JSON mode
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent?key=${state.apiKey}`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       contents: [{parts: [{text: prompt}]}],
-      generationConfig: {temperature: 0.7, maxOutputTokens: 4000}
+      generationConfig: {
+        temperature: 0.7, 
+        maxOutputTokens: 2000,
+        responseMimeType: "application/json" // Ensures clean JSON format, uses fewer tokens
+      }
     })
   });
   
@@ -922,9 +882,8 @@ ${topicList}
   }
   
   const data = await res.json();
-  let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  text = text.replace(/```json/g,'').replace(/```/g,'').trim();
-  return JSON.parse(text);
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
+  return JSON.parse(text); // No regex needed due to JSON mode
 }
 
 function showQuizActive() {
@@ -984,7 +943,7 @@ function selectAnswer(idx) {
     if (!exists) {
       state.flashcards.push({
         question: q.question,
-        answer: `${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}\n\n${q.explanation}`,
+        answer: `${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}\\n\\n${q.explanation}`,
         subject: q.subject,
         topic: q.topic,
         hard: true,
@@ -1076,7 +1035,7 @@ function addToFlashcard() {
   if (!exists) {
     state.flashcards.push({
       question: q.question,
-      answer: `${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}\n\n${q.explanation}`,
+      answer: `${['A','B','C','D'][q.correct]}. ${q.options[q.correct]}\\n\\n${q.explanation}`,
       subject: q.subject,
       topic: q.topic,
       hard: false,
@@ -1122,7 +1081,7 @@ async function startBookmarkQuiz() {
     renderQuestion();
   } catch(e) {
     hideLoading();
-    showToast('❌ Error: ' + e.message);
+    showToast('❌ Error: API व्यस्त है। थोड़ी देर बाद कोशिश करें।');
   }
 }
 
@@ -1274,7 +1233,7 @@ function saveQuickNote() {
 function showNotes() {
   const modal = document.getElementById('notesModal');
   document.getElementById('notesModalContent').innerHTML = state.notes.length === 0 ?
-    '<p style="color:var(--text-muted);font-size:13px;">कोई नोट नहीं। नीचे नया नोट जोड़ें।</p>' :
+    '<p style="color:var(--text-muted);font-size:13px;">कोई नोट नहीं। नीचे नया नोट जोड़ें。</p>' :
     state.notes.map((n,i) => `
       <div style="padding:10px;background:var(--bg);border-radius:10px;margin-bottom:10px;">
         <div style="font-size:13px;margin-bottom:4px;">${n.text}</div>
